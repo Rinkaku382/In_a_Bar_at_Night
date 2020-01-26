@@ -680,6 +680,14 @@ label passage_6:
     """
     This is passage 6.
     """
+label passage6_screen:
+    call screen passage6screen
+label passage6_coffee:
+    "That really is a good coffee."
+    jump passage6_screen
+label passage6_text:
+    "Well, let me tell you about that text..."
+    
     $ persistent.passage_6 = True
     $ renpy.end_replay()
 
