@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 825: expected statement.
-    labelpassage9_magazineend:
-                             ^
+File "game/script.rpy", line 644: expected ':' not found.
+    else conversation1 == False:
+         ^
 
 Ren'Py Version: Ren'Py 7.2.2.491
-Sun Jan 12 13:31:38 2020
+Sun Jan 26 16:17:57 2020

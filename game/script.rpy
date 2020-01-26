@@ -1,4 +1,4 @@
-﻿define slowfade = Fade (1.0, 0, 1.0)
+define slowfade = Fade(1.0, 0, 3.0)
 define slowerfade = Fade (3.0, 0, 3.0)
 define slowdissolve = Dissolve(1.0)
 define fadehold = Fade(3.0, 1.0, 3.0)
@@ -11,6 +11,7 @@ define j = Character("The Journalist")
 define ow = Character ("The Owner")
 define b = Character ("The Body")
 define nnm = Character("No Name Man")
+define t = Character("Travis")
 
 
 label start:
@@ -616,23 +617,279 @@ label passage2_expert:
 
     return
 
+##### END PASSAGE 2 ##########################################################################################################################################################################################################################################
+
 label passage_3:
+    $ conversation1 = False
+    $ conversation2 = False
+    $ emptycup = False
+    $ cigarettelit = False
+    $ cigaretteunlit = False
+    $ milkpoured = False
+    $ coffeepoured = False
+    $ trip = False
+    $ work = False
+    $ appreciation = False
+    $ lucille = False
+
     show scene3
     with fadehold
     with Pause(4)
 
-    scene backg_3
+    scene black
     with fadehold
+    play music "eggsandsausage.ogg" fadein(5)
     """
-    This is passage 3.
+    A night like many others.
+
+     Tom Waits is playing in the background.
+
+    Just one song, in loop, as if the bartender has fallen in love with it and doesn't want to listen to anything else.
+
+    You're sitted at a table, drinking coffee and smoking cigarettes.
+
+    But at one point, a young man who looks like he's been on the street for days, enters in the bar.
+
+    He looks around and then notices you.
+
+    You look at him, greeting him with an open smile as he moves towards your table and then sits.
     """
+    scene backg_3
+    with slowfade
+    y "It's been a long time, Travis! How are you?"
+    t "Fine, thanks. What about you? I've heard you've been around."
+    menu:
+        "Yes, me and Mary have been on a little trip.":
+            $ trip = True
+            t "A trip? Where?"
+            y "We've been to Paris. She has always dreamt of going there so...so I just took her."
+            t "You just took her?"
+            y "Yes, one day I made up my mind, bought the tickets and told her."
+            t "That really should've been great..."
+
+        "Well, you know, work...":
+            $ work = True
+            t "That's too bad. But i bet it's nice to just travel, even for work."
+            y "Yeah, it's nice. You get to see many places."
+            t "Travel throughout the wolrd...that must be very interesting. I bet you've seen many things in these years."
+            y "Yeah, I did."
+            t "Incredible, truly incredible..."
+    t "Me...I have to say, I'm not so interesting, these days."
+    menu:
+        "What do you mean?":
+            t "You know, it's always the usual. Nothing happens, nothing changes, all stays the same."
+            y "Oh, I understand."
+        "Well, sometimes that's good too.":
+            t "You're right. Sometimes it is..."
+    t "But anyways, have some coffee."
+    $ coffeepoured = True
+    y "Thanks, Travis."
+    t "Here, I've some cigarettes left, if you want to smoke some. They're strong, though."
+    "He takes a full pack out of a pocket in his jacket and places it on the table."
+label passage3screen1:
+    if conversation2 == True:
+        call screen passage3screen3
+    elif conversation1 == True:
+        call screen passage3screen2
+    elif conversation1 == False:
+        call screen passage3screen1
+label passage3_hiscoffee:
+    scene backg_3
+    if appreciation == True:
+        """
+        His coffee is dark as the night outside the bar.
+
+        As he drinks it, it seems he enjoys it very much.
+        """
+    elif appreciation == False:
+        $ appreciation = True
+        y "You sure like it strong, huh?"
+        t "Yeah, strong cigarettes and strong coffee. I just enjoy it."
+        y "That's good, truly good."
+        t "Oh, you can bet it is."
+    jump passage3screen1
+label passage3_mycoffee:
+    scene backg_3
+    if coffeepoured == True:
+        menu:
+            "Drink":
+                $ coffeepoured = False
+                $ milkpoured = False
+                "In one big sip you empty the entire cup."
+            "Don't drink":
+                $ coffeepoured = True
+                "The coffee is too hot, so you leave it there for some more."
+    elif coffeepoured == False:
+        "I should pour some coffee."
+    jump passage3screen1
+label passage3_pourcoffee:
+    scene backg_3
+    if coffeepoured == True:
+        "You've already poured it."
+    elif coffeepoured == False:
+        menu:
+            "Pour coffee.":
+                $ coffeepoured = True
+                "The black and strong-flavoured liquid flows in your cup."
+            "Don't pour coffee.":
+                $ coffepoured = False
+                "You don't really feel like drinking coffee."
+    jump passage3screen1
+label passage3_pourmilk:
+    scene backg_3
+    if milkpoured == True:
+        "There's no need to pour more milk."
+    elif milkpoured == False:
+        menu:
+            "Pour milk.":
+                $ milkpoured = True
+                "You add some milk in your cup."
+            "Don't pour milk.":
+                $ milkpoured = False
+                "You prefer not to add milk."
+    jump passage3screen1
+label passage3_cigarette:
+    scene backg_3
+    if cigarettelit == True:
+        "There's no need to light another one."
+    elif cigarettelit == False:
+        menu:
+            "Take a cigarette.":
+                $ cigarettelit = True
+                "You take a cigarette from the pack, and you light it."
+            "Don't take it.":
+                $ cigarettelit = False
+                "Your hand moves closer to the pack of cigarettes, but you decide to not smoke."
+    jump passage3screen1
+label passage3_tosscigarette:
+    scene backg_3
+    if cigarettelit == True:
+        menu:
+            "Toss the cigarette.":
+                $ cigarettelit = False
+                "You squash the cigarette into the ashtray. Some traces of ash remain on your fingers."
+            "Don't toss the cigarette.":
+                $ cigarettelit = True
+                "You think about tossing the cigarette, but then decide to continue smoking it."
+    elif cigarettelit == False:
+        "You don't have any cigarette to toss."
+    jump passage3screen1
+
+label passage3_discussion1:
+    scene backg_3
+    $ conversation1 = True
+    if trip == True:
+        t "So, how was Paris?"
+        menu:
+            "Everything is just incredible!":
+                t "Really? I'm glad to hear that."
+                y "You know what? You should go there, once you can. You would like it."
+                t "Yeah, you're right. I would..."
+            "Not bad, but I wouldn't live there":
+                t "Guess I understand. Nowhere is better than home, right?"
+                y "Absolutely. There are no places like this, there. And there are no friends."
+                t "No friends, huh?"
+                y "Nope."
+    elif work == True:
+        y "And how is work going?"
+        menu:
+            "Not bad, some new contracts on the way":
+                t "That's a good news, right?"
+                y "Of course! Lots of places are asking me to play there and the prizes just keep increasing."
+                t "You finally made it, then! Oh, that's so good to hear, really."
+                y "Thank you."
+                t "I really mean it, I'm happy for you."
+            "Tiring, as always.":
+                t "Too bad, really too bad. No time to rest, huh?"
+                y "Absolutely no time, right. As soon as I've finished playing in a place I have to leave for another."
+                t "Sorry to hear that..."
+                y "Don't worry, it's just how life is."
+    jump passage3screen1
+label passage3_discussion2:
+    scene backg_3
+    $ conversation2 = True
+    menu:
+        "So, what are you doing these days?":
+            t "The usual, you know...girls, drinks, some little wandering here and there."
+            y "Yeah, the usual indeed. And what about Lucille?"
+            t "...Lucille?"
+            y "Yeah, your girlfriend."
+            t """
+            Oh, yeah, right...Lucille...Lucille yeah, well, we left each other.
+
+            She told me I wasn't reliable, I didn't earn too much, I didn't wash the dishes very well, so she left.
+
+            You know, it's the usual.
+            """
+            y "Uhm not so usual, I guess."
+            t "But it doesn't matter! It really doesn't matter."
+            $ lucille = True
+        "It's nice here.":
+            t " Yeah, it is. How did you managed to know about this place?"
+            y "Well, a friend of mine told me about it, yet I never came before tonight."
+            t "I see. Nice music, too."
+            y "Yes, but it would be nice to hear something else from Waits, too."
+            t "Guess you're right."
+    jump passage3screen1
+label passage3_discussion3:
+    scene backg_3
+    if lucille == True:
+        t "Well, to be honest...Lucille didn't left for that. She disappeared without saying anything."
+        y "At all?"
+        t """
+        Yeah, at all. From that day, I always feel unconscious. I don't pay attention to nothing, I don't do nothing.
+
+        I'm just a shell, you know? An ugly and empty shell, waiting for her to come back. But she doesn't.
+        """
+        menu:
+            "I'm really sorry.":
+                t "I'm sorry too, yeah. But what can we do about it? Nothing, I guess."
+                "He's sad as he drinks his coffee. From now, neither of you speaks anymore, you just enjoy the night, the music and the atmosphere."
+            "Can I help you in any way?":
+                t "I don't know. I really don't know. Maybe...maybe talking about it is already enough."
+                y "I understand..."
+                t """
+                You know, I've been doing...bad things. Treating others like items. Drinking myself to sleep every night.
+
+                Shouting at people, stealing from people, fucking with random people. I don't even feel human anymore.
+                """
+                if trip == True:
+                    t """
+                    But you know what? I think seeing you after all this time, knowing things for you are good...
+
+                    It just makes me feel better. Really.
+
+                    Listen, what about a toeast?
+                    """
+                    call screen passage3goodend
+                elif trip == False:
+                    t """
+                    You know, just talking with you feels nice.
+
+                    Really, I mean it. Even if things are just ok for you, it's good. I guess even old friendships can last in time, huh?
+                    """
+                    y "Guess you're right, yeah."
+                    "He smiles at you, drinking his coffee. From now, neither of you speaks anymore, you just enjoy the night, the music and the atmosphere."
+    else:
+        t "Well, it's been nice seeing you, but now I really have to go."
+        y "Really? Can't you stay a little more?"
+        t "No, I'm sorry, I have some unfinished business, you know, and it's better if I take care of it."
+        y "That's good, don't worry. See you, then."
+        t "Yeah, see you, it has been nice."
+        "He leaves the bar, disappearing in the darkness of the night."
+
+label passage3_goodend:
+    "Both of you raise your cups of coffee and drink."
+
+    stop music fadeout (2)
+    show black
+    with fadehold
     $ persistent.passage_3 = True
     $ renpy.end_replay()
 
-    show black
-    with fadehold
-
     return
+
+##### END PASSAGE 3 ##########################################################################################################################################################################################################################################
 
 label passage_4:
     show scene4
@@ -644,13 +901,16 @@ label passage_4:
     """
     This is passage 4.
     """
-    $ persistent.passage_4 = True
-    $ renpy.end_replay()
-
+    stop music fadeout (2)
     show black
     with fadehold
+    $ persistent.passage_3 = True
+    $ renpy.end_replay()
 
     return
+
+##### END PASSAGE 4 ##########################################################################################################################################################################################################################################
+
 
 label passage_5:
     show scene5
@@ -662,13 +922,15 @@ label passage_5:
     """
     This is passage 5.
     """
-    $ persistent.passage_5 = True
-    $ renpy.end_replay()
-
+    stop music fadeout (2)
     show black
     with fadehold
+    $ persistent.passage_3 = True
+    $ renpy.end_replay()
 
     return
+
+##### END PASSAGE 5 ##########################################################################################################################################################################################################################################
 
 label passage_6:
     show scene6
@@ -687,14 +949,16 @@ label passage6_coffee:
     jump passage6_screen
 label passage6_text:
     "Well, let me tell you about that text..."
-    
-    $ persistent.passage_6 = True
-    $ renpy.end_replay()
 
+    stop music fadeout (2)
     show black
     with fadehold
+    $ persistent.passage_3 = True
+    $ renpy.end_replay()
 
     return
+
+##### END PASSAGE 6 ##########################################################################################################################################################################################################################################
 
 label passage_7:
     show scene7
@@ -706,13 +970,15 @@ label passage_7:
     """
     This is passage 7.
     """
-    $ persistent.passage_7 = True
-    $ renpy.end_replay()
-
+    stop music fadeout (2)
     show black
     with fadehold
+    $ persistent.passage_3 = True
+    $ renpy.end_replay()
 
     return
+
+##### END PASSAGE 7 ##########################################################################################################################################################################################################################################
 
 label passage_8:
     show scene8
@@ -724,13 +990,15 @@ label passage_8:
     """
     This is passage 8.
     """
-    $ persistent.passage_8 = True
-    $ renpy.end_replay()
-
+    stop music fadeout (2)
     show black
     with fadehold
+    $ persistent.passage_3 = True
+    $ renpy.end_replay()
 
     return
+
+##### END PASSAGE 8 ##########################################################################################################################################################################################################################################
 
 label passage_9:
     $ body_res= 5
@@ -839,10 +1107,13 @@ label passage9_coffeeend:
         They go away, mixing with the night's darkness. But your place is in there, in the bar, until the dawn's light will appear.
         """
 
+    stop music fadeout (2)
     show black
     with fadehold
-    $ persistent.passage_9 = True
+    $ persistent.passage_3 = True
     $ renpy.end_replay()
+
+    return
 
 label passage9_magazineend:
 
@@ -875,6 +1146,8 @@ label passage9_magazineend:
     $ renpy.end_replay()
 
     return
+
+##### END PASSAGE 9 ##########################################################################################################################################################################################################################################
 
 label passage_10:
     $ drink = 0
