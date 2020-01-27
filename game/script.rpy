@@ -919,6 +919,7 @@ label passage_5:
 
     scene backg_5
     with fadehold
+    play music "zazenbo.ogg"
     """
     This is passage 5.
     """
