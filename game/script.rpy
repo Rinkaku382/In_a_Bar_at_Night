@@ -980,7 +980,7 @@ label passage5_scene2:
                 $ verlike -= 10
                 ""
     elif verlike == 60:
-        
+        "heheheh"
     stop music fadeout (2)
     show black
     with fadehold
