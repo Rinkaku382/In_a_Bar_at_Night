@@ -5,7 +5,7 @@ screen scenes:
         pos (0, 0)
         grid 5 2:
             xalign 0.5 yalign 0.5
-            spacing 20
+            spacing 30
          ## scene 1
             if renpy.seen_label("passage_1") and persistent.passage_1 == True:
                 imagebutton idle "images/thumbnails/scene1.png" action Replay("passage_1")

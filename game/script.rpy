@@ -12,6 +12,7 @@ define ow = Character ("The Owner")
 define b = Character ("The Body")
 define nnm = Character("No Name Man")
 define t = Character("Travis")
+define v = Character("Veronique")
 
 
 label start:
@@ -913,16 +914,73 @@ label passage_4:
 
 
 label passage_5:
+    $ verlike = 50
     show scene5
     with fadehold
     with Pause(4)
+
+    scene black
+    with fadehold
+    """
+    In a cold night, you've met a strange girl.
+
+    She looks exactly like you, yet she's different.
+
+    Her style, her way of talking, her look.
+
+    There's something creepy, yet captivating about her.
+
+    Although the bar is high-ranking, a band you've never heard is playing.
+
+    It really doesn't seem to fit the environment.
+    """
 
     scene backg_5
     with fadehold
     play music "zazenbo.ogg"
     """
-    This is passage 5.
+    She looks at you, smiling.
+
+    Her blonde hair, her elegant dress; everything about her captures your attention and curiosity.
+
+    You'd like to know more about her, just as much she'd like to know more about you.
     """
+    v "It's really strange, you know...getting to know someone like you, so similar to me."
+    y "You're right, things like this don't happen every day."
+    v "I'm sorry about the music, I didn't thought it would have been this awful, tonight..."
+    menu:
+        "Oh, don't worry, I like it.":
+            $ verlike -= 10
+            v "Oh, really? You truly are...something, then."
+            y "I guess you could say that..."
+        "I don't like it too.":
+            $ verlike += 10
+            v "I love this place, but sometimes they invite strange bands to play for something like half an hour."
+            y "And why that?"
+            v "For what I know, it's the owner's decision. He likes various genres of music."
+            y "That's...surprising."
+            v "Right? A band like that isn't really suited for this place. And you don't even imagine the others he invited."
+    jump passage5_scene2
+label passage5_scene2:
+    if verlike == 40:
+        v "But music apart, I'm more interested in knowing you. I already know your name, Weronika, but what else can you tell me?"
+        menu:
+            "Is there something you'd like to know?":
+                v "In particular, you mean?"
+                y "Yes."
+                v "Let me think about it..."
+            "Uhm, I really don't know...":
+                v "Let me think about something, then!"
+        v "What about your work?"
+        menu:
+            "":
+                $ verlike += 10
+                ""
+            "":
+                $ verlike -= 10
+                ""
+    elif verlike == 60:
+        
     stop music fadeout (2)
     show black
     with fadehold
